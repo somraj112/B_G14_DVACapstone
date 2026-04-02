@@ -1,0 +1,2 @@
+data/raw/US_Accidents_part1.csv filter=lfs diff=lfs merge=lfs -text
+data/raw/US_Accidents_part2.csv filter=lfs diff=lfs merge=lfs -text
