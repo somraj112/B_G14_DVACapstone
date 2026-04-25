@@ -24,7 +24,7 @@ import numpy as np
 import pandas as pd
 
 
-DEFAULT_ANALYSIS_SAMPLE_N = 500_000
+DEFAULT_ANALYSIS_SAMPLE_N = 100_000
 
 
 # ---------------------------------------------------------------------------
