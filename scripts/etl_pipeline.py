@@ -24,6 +24,9 @@ import numpy as np
 import pandas as pd
 
 
+DEFAULT_ANALYSIS_SAMPLE_N = 100_000
+
+
 # ---------------------------------------------------------------------------
 # Generic helpers (kept for reuse)
 # ---------------------------------------------------------------------------
@@ -130,23 +133,41 @@ def load_us_accidents(
     input_path: Path | str,
     sample_n: int | None = None,
     random_state: int = 42,
+    chunksize: int = 250_000,
 ) -> pd.DataFrame:
     """Load the raw US Accidents CSV and normalize column names.
 
     Parameters
     ----------
     input_path : path to the combined raw CSV (produced by data/raw/combine.py)
-    sample_n   : if given, return a random sample of this many rows (for dev)
+    sample_n   : if given, return a random sample of this many rows without
+                 loading the full 2.8 GB file into memory
     random_state : seed for reproducible sampling
+    chunksize : row count per streaming chunk when sampling
     """
     input_path = Path(input_path)
-    df = pd.read_csv(input_path, low_memory=False)
-    df = normalize_columns(df)
+    if sample_n is None:
+        return normalize_columns(pd.read_csv(input_path, low_memory=False))
 
-    if sample_n is not None and sample_n < len(df):
-        df = df.sample(n=sample_n, random_state=random_state).reset_index(drop=True)
+    rng = np.random.default_rng(random_state)
+    sample: pd.DataFrame | None = None
 
-    return df
+    for chunk in pd.read_csv(input_path, low_memory=False, chunksize=chunksize):
+        chunk = normalize_columns(chunk)
+        chunk["_sample_key"] = rng.random(len(chunk))
+
+        if sample is None:
+            sample = chunk.nsmallest(min(sample_n, len(chunk)), "_sample_key")
+        else:
+            sample = (
+                pd.concat([sample, chunk], ignore_index=True)
+                .nsmallest(sample_n, "_sample_key")
+            )
+
+    if sample is None:
+        return pd.DataFrame()
+
+    return sample.drop(columns="_sample_key").reset_index(drop=True)
 
 
 # ---------------------------------------------------------------------------
@@ -306,13 +327,19 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Run the Capstone 2 US Accidents ETL pipeline.")
     parser.add_argument("--input", required=True, type=Path, help="Raw CSV in data/raw/.")
     parser.add_argument("--output", required=True, type=Path, help="Cleaned CSV in data/processed/.")
-    parser.add_argument("--sample", type=int, default=None, help="Optional dev sample size.")
+    parser.add_argument(
+        "--sample",
+        type=int,
+        default=DEFAULT_ANALYSIS_SAMPLE_N,
+        help="Row sample size for analysis/Tableau. Use 0 for full dataset.",
+    )
     return parser.parse_args()
 
 
 def main() -> None:
     args = parse_args()
-    cleaned = build_clean_dataset(args.input, sample_n=args.sample)
+    sample_n = None if args.sample == 0 else args.sample
+    cleaned = build_clean_dataset(args.input, sample_n=sample_n)
     save_processed(cleaned, args.output)
     print(f"Processed dataset saved to: {args.output}")
     print(f"Rows: {len(cleaned):,} | Columns: {len(cleaned.columns)}")
