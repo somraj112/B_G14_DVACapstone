@@ -5,71 +5,43 @@
 
 ---
 
-## Before You Start
-
-1. Rename the repository using the format `SectionName_TeamID_ProjectName`.
-2. Fill in the project details and team table below.
-3. Add the raw dataset to `data/raw/`.
-4. Complete the notebooks in order from `01` to `05`.
-5. Publish the final dashboard and add the public link in `tableau/dashboard_links.md`.
-6. Export the final report and presentation as PDFs into `reports/`.
-
-### Quick Start
-
-If you are working locally:
-
-```bash
-python -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-jupyter notebook
-```
-
-If you are working in Google Colab:
-
-- Upload or sync the notebooks from `notebooks/`
-- Keep the final `.ipynb` files committed to GitHub
-- Export any cleaned datasets into `data/processed/`
-
----
-
 ## Project Overview
 
 | Field | Details |
 |---|---|
-| **Project Title** | _To be filled by team_ |
-| **Sector** | _e.g. Retail, Finance, Healthcare, EdTech_ |
-| **Team ID** | _e.g. DVA-B1-T3_ |
-| **Section** | _To be filled by team_ |
-| **Faculty Mentor** | _To be filled by team_ |
+| **Project Title** | Identifying High-Risk Road Conditions and Geographic Hotspots to Reduce Traffic Accident Severity Across the United States |
+| **Sector** | Transportation / Public Safety |
+| **Team ID** | B_G14 |
+| **Section** | DVA-B |
+| **Faculty Mentor** | _To be filled_ |
 | **Institute** | Newton School of Technology |
-| **Submission Date** | _To be filled by team_ |
+| **Submission Date** | _To be filled_ |
 
 ### Team Members
 
-| Role | Name | GitHub Username |
-|---|---|---|
-| Project Lead | _Name_ | `github-handle` |
-| Data Lead | _Name_ | `github-handle` |
-| ETL Lead | _Name_ | `github-handle` |
-| Analysis Lead | _Name_ | `github-handle` |
-| Visualization Lead | _Name_ | `github-handle` |
-| Strategy Lead | _Name_ | `github-handle` |
-| PPT and Quality Lead | _Name_ | `github-handle` |
+| Role | GitHub Username |
+|---|---|
+| Project Lead | `AalokeCode` |
+| Data Lead | `aryankinha` |
+| ETL Lead | `aryankinha` |
+| Analysis Lead | `punityadavrao` |
+| Visualization Lead | `somraj` _(username TBD)_ |
+| Strategy Lead | `alok` _(username TBD)_ |
+| PPT and Quality Lead | `AalokeCode` |
 
 ---
 
 ## Business Problem
 
-_Describe the sector context, the decision-maker this project serves, and the core business challenge being addressed. Keep this to 3-5 sentences written in plain language, as if addressing a senior stakeholder._
+Road traffic accidents cause billions of dollars in infrastructure damage, emergency response costs, and productivity loss annually across the United States. Despite vast amounts of accident data being collected, safety resource allocation — road signage, traffic signal placement, emergency staffing — remains largely reactive rather than predictive. This project serves transportation planners, state DOTs, and public safety departments who need to prioritise where and when to deploy limited resources.
 
 **Core Business Question**
 
-> _State the single main question your Tableau dashboard and Python analysis will answer._
+> Which geographic locations, road conditions, and temporal patterns are most strongly associated with high-severity traffic accidents, and what actionable interventions can reduce accident severity?
 
 **Decision Supported**
 
-> _What action or decision will this analysis enable the stakeholder to take?_
+> This analysis enables transportation authorities to redirect infrastructure investment and emergency response staffing toward the highest-risk corridors, time windows, and weather conditions identified in the data.
 
 ---
 
@@ -77,21 +49,25 @@ _Describe the sector context, the decision-maker this project serves, and the co
 
 | Attribute | Details |
 |---|---|
-| **Source Name** | _e.g. World Bank, data.gov.in, Kaggle (raw only)_ |
-| **Direct Access Link** | _Paste the direct download or access URL_ |
-| **Row Count** | _Must be greater than 5,000_ |
-| **Column Count** | _Must be greater than 8 meaningful columns_ |
-| **Time Period Covered** | _e.g. Jan 2019 to Dec 2023_ |
-| **Format** | _e.g. CSV, JSON, Excel_ |
+| **Source Name** | Kaggle — US Accidents (Moosavi et al.) |
+| **Direct Access Link** | https://kaggle.com/datasets/sobhanmoosavi/us-accidents |
+| **Row Count** | 7,728,394 |
+| **Column Count** | 46 (raw) · ~34 after cleaning |
+| **Time Period Covered** | Feb 2016 – Mar 2023 |
+| **Format** | CSV |
 
 **Key Columns Used**
 
 | Column Name | Description | Role in Analysis |
 |---|---|---|
-| _column_1_ | _What it means_ | _Used for KPI / filter / segmentation_ |
-| _column_2_ | _What it means_ | _Used for KPI / filter / segmentation_ |
-| _column_3_ | _What it means_ | _Used for KPI / filter / segmentation_ |
-| _column_4_ | _What it means_ | _Used for KPI / filter / segmentation_ |
+| `severity` | Traffic impact score 1 (low) – 4 (critical) | Primary target variable; all KPIs and stats |
+| `start_lat` / `start_lng` | Accident GPS coordinates | Geographic hotspot mapping in Tableau |
+| `state` / `city` | Administrative geography | Hotspot KPIs, segmentation, filters |
+| `weather_condition` | Text label of weather at event time | Weather-severity chi-square test, dashboard filter |
+| `start_time` | Accident timestamp | Derives hour, day, month, season, rush-hour flag |
+| `duration_min` | Minutes traffic was blocked (derived) | Severity-weighted response staffing KPI |
+| `junction` / `traffic_signal` / `crossing` | Infrastructure POI flags within ~150 m | Infrastructure odds-ratio analysis (logistic regression) |
+| `is_rush_hour` | True if accident fell in 7–9 AM or 4–7 PM (derived) | Peak-hour staffing KPI |
 
 For full column definitions, see [`docs/data_dictionary.md`](docs/data_dictionary.md).
 
@@ -101,9 +77,12 @@ For full column definitions, see [`docs/data_dictionary.md`](docs/data_dictionar
 
 | KPI | Definition | Formula / Computation |
 |---|---|---|
-| _e.g. Monthly Revenue Growth %_ | _What business outcome this tracks_ | _Show the exact formula or notebook reference_ |
-| _e.g. Customer Churn Rate_ | _What business outcome this tracks_ | _Show the exact formula or notebook reference_ |
-| _e.g. Repeat Purchase Rate_ | _What business outcome this tracks_ | _Show the exact formula or notebook reference_ |
+| High-Severity Rate (%) | Share of accidents with severity ≥ 3 — the primary intervention target | `df['is_high_severity'].mean() * 100` — nb04 |
+| Median Accident Duration by Severity (min) | How long traffic was blocked at each severity level — proxy for emergency response load | `df.groupby('severity')['duration_min'].median()` — nb04 |
+| Geographic Hotspot Concentration | Top states and cities by accident count and high-severity rate | `df.groupby('state')['is_high_severity'].agg(['count','mean'])` — nb03 |
+| Rush-Hour Accident Share (%) | % of all accidents occurring during peak commute windows | `df['is_rush_hour'].mean() * 100` — nb03 |
+| YoY Accident Volume Growth Rate (%) | Year-over-year change in total accident count — tracks whether risk is increasing | `df.groupby('year').size().pct_change() * 100` — nb04 |
+| Adverse-Weather High-Severity Rate | % of high-severity accidents under adverse weather — quantifies weather exposure risk | Chi-square test + conditional rate — nb04 |
 
 Document KPI logic clearly in `notebooks/04_statistical_analysis.ipynb` and `notebooks/05_final_load_prep.ipynb`.
 
@@ -113,10 +92,10 @@ Document KPI logic clearly in `notebooks/04_statistical_analysis.ipynb` and `not
 
 | Item | Details |
 |---|---|
-| **Dashboard URL** | _Paste Tableau Public link here_ |
-| **Executive View** | _Describe the high-level KPI summary view_ |
-| **Operational View** | _Describe the detailed drill-down view_ |
-| **Main Filters** | _List the interactive filters used_ |
+| **Dashboard URL** | _To be published_ |
+| **Executive View** | _To be filled_ |
+| **Operational View** | _To be filled_ |
+| **Main Filters** | _To be filled_ |
 
 Store dashboard screenshots in [`tableau/screenshots/`](tableau/screenshots/) and document the public links in [`tableau/dashboard_links.md`](tableau/dashboard_links.md).
 
@@ -124,7 +103,7 @@ Store dashboard screenshots in [`tableau/screenshots/`](tableau/screenshots/) an
 
 ## Key Insights
 
-_List 8-12 major findings from the analysis, written in decision language. Each insight should tell the reader what to think or act upon, not merely describe a chart._
+_To be filled after analysis is complete._
 
 1. _Insight 1_
 2. _Insight 2_
@@ -139,7 +118,7 @@ _List 8-12 major findings from the analysis, written in decision language. Each 
 
 ## Recommendations
 
-_Provide 3-5 specific, actionable business recommendations, each linked directly to an insight above._
+_To be filled after analysis is complete._
 
 | # | Insight | Recommendation | Expected Impact |
 |---|---|---|---|
@@ -152,7 +131,7 @@ _Provide 3-5 specific, actionable business recommendations, each linked directly
 ## Repository Structure
 
 ```text
-SectionName_TeamID_ProjectName/
+B_G14_DVACapstone/
 |
 |-- README.md
 |
@@ -281,18 +260,17 @@ This table must match evidence in GitHub Insights, PR history, and committed fil
 
 | Team Member | Dataset and Sourcing | ETL and Cleaning | EDA and Analysis | Statistical Analysis | Tableau Dashboard | Report Writing | PPT and Viva |
 |---|---|---|---|---|---|---|---|
-| _Member 1_ | _Owner / support_ | _Owner / support_ | _Owner / support_ | _Owner / support_ | _Owner / support_ | _Owner / support_ | _Owner / support_ |
-| _Member 2_ | _Owner / support_ | _Owner / support_ | _Owner / support_ | _Owner / support_ | _Owner / support_ | _Owner / support_ | _Owner / support_ |
-| _Member 3_ | _Owner / support_ | _Owner / support_ | _Owner / support_ | _Owner / support_ | _Owner / support_ | _Owner / support_ | _Owner / support_ |
-| _Member 4_ | _Owner / support_ | _Owner / support_ | _Owner / support_ | _Owner / support_ | _Owner / support_ | _Owner / support_ | _Owner / support_ |
-| _Member 5_ | _Owner / support_ | _Owner / support_ | _Owner / support_ | _Owner / support_ | _Owner / support_ | _Owner / support_ | _Owner / support_ |
-| _Member 6_ | _Owner / support_ | _Owner / support_ | _Owner / support_ | _Owner / support_ | _Owner / support_ | _Owner / support_ | _Owner / support_ |
+| AalokeCode | _Owner / support_ | _Owner / support_ | _Owner / support_ | _Owner / support_ | _Owner / support_ | _Owner / support_ | _Owner / support_ |
+| aryankinha | _Owner / support_ | _Owner / support_ | _Owner / support_ | _Owner / support_ | _Owner / support_ | _Owner / support_ | _Owner / support_ |
+| punityadavrao | _Owner / support_ | _Owner / support_ | _Owner / support_ | _Owner / support_ | _Owner / support_ | _Owner / support_ | _Owner / support_ |
+| somraj _(TBD)_ | _Owner / support_ | _Owner / support_ | _Owner / support_ | _Owner / support_ | _Owner / support_ | _Owner / support_ | _Owner / support_ |
+| alok _(TBD)_ | _Owner / support_ | _Owner / support_ | _Owner / support_ | _Owner / support_ | _Owner / support_ | _Owner / support_ | _Owner / support_ |
 
 _Declaration: We confirm that the above contribution details are accurate and verifiable through GitHub Insights, PR history, and submitted artifacts._
 
-**Team Lead Name:** _____________________________
+**Team Lead Name:** AalokeCode
 
-**Date:** _______________
+**Date:** _To be filled_
 
 ---
 
