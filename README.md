@@ -215,15 +215,15 @@ The project follows a structured 7-step workflow:
 
 **GitHub Repository**
 
-- [ ] Public repository created with the correct naming convention (`SectionName_TeamID_ProjectName`)
-- [ ] All notebooks committed in `.ipynb` format
-- [ ] `data/raw/` contains the original, unedited dataset
-- [ ] `data/processed/` contains the cleaned pipeline output
+- [x] Public repository created with the correct naming convention (`B_G14_DVACapstone`)
+- [x] All notebooks committed in `.ipynb` format
+- [x] `data/raw/` contains the original, unedited dataset (`US_Accidents_March23.csv`)
+- [x] `data/processed/` contains the cleaned pipeline output (`cleaned_dataset.csv`)
 - [ ] `tableau/screenshots/` contains dashboard screenshots
 - [ ] `tableau/dashboard_links.md` contains the Tableau Public URL
-- [ ] `docs/data_dictionary.md` is complete
-- [ ] `README.md` explains the project, dataset, and team
-- [ ] All members have visible commits and pull requests
+- [x] `docs/data_dictionary.md` is complete
+- [x] `README.md` explains the project, dataset, and team
+- [x] All members have visible commits and pull requests
 
 **Tableau Dashboard**
 
@@ -236,7 +236,7 @@ The project follows a structured 7-step workflow:
 - [ ] Final report exported as PDF into `reports/`
 - [ ] Cover page, executive summary, sector context, problem statement
 - [ ] Data description, cleaning methodology, KPI framework
-- [ ] EDA with written insights, statistical analysis results
+- [x] EDA with written insights, statistical analysis results (notebooks 03 and 04 complete)
 - [ ] Dashboard screenshots and explanation
 - [ ] 8-12 key insights in decision language
 - [ ] 3-5 actionable recommendations with impact estimates
