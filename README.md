@@ -7,27 +7,27 @@
 
 ## Project Overview
 
-| Field | Details |
-|---|---|
-| **Project Title** | Identifying High-Risk Road Conditions and Geographic Hotspots to Reduce Traffic Accident Severity Across the United States |
-| **Sector** | Transportation / Public Safety |
-| **Team ID** | B_G14 |
-| **Section** | DVA-B |
-| **Faculty Mentor** | _To be filled_ |
-| **Institute** | Newton School of Technology |
-| **Submission Date** | _To be filled_ |
+| Field               | Details                                                                                                                    |
+| ------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| **Project Title**   | Identifying High-Risk Road Conditions and Geographic Hotspots to Reduce Traffic Accident Severity Across the United States |
+| **Sector**          | Transportation / Public Safety                                                                                             |
+| **Team ID**         | B_G14                                                                                                                      |
+| **Section**         | DVA-B                                                                                                                      |
+| **Faculty Mentor**  | _To be filled_                                                                                                             |
+| **Institute**       | Newton School of Technology                                                                                                |
+| **Submission Date** | _To be filled_                                                                                                             |
 
 ### Team Members
 
-| Role | GitHub Username |
-|---|---|
-| Project Lead | `AalokeCode` |
-| Data Lead | `aryankinha` |
-| ETL Lead | `aryankinha` |
-| Analysis Lead | `punityadavrao` |
-| Visualization Lead | `somraj112` |
-| Strategy Lead | `bigXalok` |
-| PPT and Quality Lead | `AalokeCode` |
+| Role                 | GitHub Username |
+| -------------------- | --------------- |
+| Project Lead         | `AalokeCode`    |
+| Data Lead            | `aryankinha`    |
+| ETL Lead             | `aryankinha`    |
+| Analysis Lead        | `punityadavrao` |
+| Visualization Lead   | `somraj112`     |
+| Strategy Lead        | `bigXalok`      |
+| PPT and Quality Lead | `AalokeCode`    |
 
 ---
 
@@ -47,27 +47,27 @@ Road traffic accidents cause billions of dollars in infrastructure damage, emerg
 
 ## Dataset
 
-| Attribute | Details |
-|---|---|
-| **Source Name** | Kaggle — US Accidents (Moosavi et al.) |
-| **Direct Access Link** | https://kaggle.com/datasets/sobhanmoosavi/us-accidents |
-| **Row Count** | 7,728,394 |
-| **Column Count** | 46 (raw) · ~34 after cleaning |
-| **Time Period Covered** | Feb 2016 – Mar 2023 |
-| **Format** | CSV |
+| Attribute               | Details                                                |
+| ----------------------- | ------------------------------------------------------ |
+| **Source Name**         | Kaggle — US Accidents (Moosavi et al.)                 |
+| **Direct Access Link**  | https://kaggle.com/datasets/sobhanmoosavi/us-accidents |
+| **Row Count**           | 7,728,394                                              |
+| **Column Count**        | 46 (raw) · ~34 after cleaning                          |
+| **Time Period Covered** | Feb 2016 – Mar 2023                                    |
+| **Format**              | CSV                                                    |
 
 **Key Columns Used**
 
-| Column Name | Description | Role in Analysis |
-|---|---|---|
-| `severity` | Traffic impact score 1 (low) – 4 (critical) | Primary target variable; all KPIs and stats |
-| `start_lat` / `start_lng` | Accident GPS coordinates | Geographic hotspot mapping in Tableau |
-| `state` / `city` | Administrative geography | Hotspot KPIs, segmentation, filters |
-| `weather_condition` | Text label of weather at event time | Weather-severity chi-square test, dashboard filter |
-| `start_time` | Accident timestamp | Derives hour, day, month, season, rush-hour flag |
-| `duration_min` | Minutes traffic was blocked (derived) | Severity-weighted response staffing KPI |
-| `junction` / `traffic_signal` / `crossing` | Infrastructure POI flags within ~150 m | Infrastructure odds-ratio analysis (logistic regression) |
-| `is_rush_hour` | True if accident fell in 7–9 AM or 4–7 PM (derived) | Peak-hour staffing KPI |
+| Column Name                                | Description                                         | Role in Analysis                                         |
+| ------------------------------------------ | --------------------------------------------------- | -------------------------------------------------------- |
+| `severity`                                 | Traffic impact score 1 (low) – 4 (critical)         | Primary target variable; all KPIs and stats              |
+| `start_lat` / `start_lng`                  | Accident GPS coordinates                            | Geographic hotspot mapping in Tableau                    |
+| `state` / `city`                           | Administrative geography                            | Hotspot KPIs, segmentation, filters                      |
+| `weather_condition`                        | Text label of weather at event time                 | Weather-severity chi-square test, dashboard filter       |
+| `start_time`                               | Accident timestamp                                  | Derives hour, day, month, season, rush-hour flag         |
+| `duration_min`                             | Minutes traffic was blocked (derived)               | Severity-weighted response staffing KPI                  |
+| `junction` / `traffic_signal` / `crossing` | Infrastructure POI flags within ~150 m              | Infrastructure odds-ratio analysis (logistic regression) |
+| `is_rush_hour`                             | True if accident fell in 7–9 AM or 4–7 PM (derived) | Peak-hour staffing KPI                                   |
 
 For full column definitions, see [`docs/data_dictionary.md`](docs/data_dictionary.md).
 
@@ -75,14 +75,14 @@ For full column definitions, see [`docs/data_dictionary.md`](docs/data_dictionar
 
 ## KPI Framework
 
-| KPI | Definition | Formula / Computation |
-|---|---|---|
-| High-Severity Rate (%) | Share of accidents with severity ≥ 3 — the primary intervention target | `df['is_high_severity'].mean() * 100` — nb04 |
-| Median Accident Duration by Severity (min) | How long traffic was blocked at each severity level — proxy for emergency response load | `df.groupby('severity')['duration_min'].median()` — nb04 |
-| Geographic Hotspot Concentration | Top states and cities by accident count and high-severity rate | `df.groupby('state')['is_high_severity'].agg(['count','mean'])` — nb03 |
-| Rush-Hour Accident Share (%) | % of all accidents occurring during peak commute windows | `df['is_rush_hour'].mean() * 100` — nb03 |
-| YoY Accident Volume Growth Rate (%) | Year-over-year change in total accident count — tracks whether risk is increasing | `df.groupby('year').size().pct_change() * 100` — nb04 |
-| Adverse-Weather High-Severity Rate | % of high-severity accidents under adverse weather — quantifies weather exposure risk | Chi-square test + conditional rate — nb04 |
+| KPI                                        | Definition                                                                              | Formula / Computation                                                  |
+| ------------------------------------------ | --------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| High-Severity Rate (%)                     | Share of accidents with severity ≥ 3 — the primary intervention target                  | `df['is_high_severity'].mean() * 100` — nb04                           |
+| Median Accident Duration by Severity (min) | How long traffic was blocked at each severity level — proxy for emergency response load | `df.groupby('severity')['duration_min'].median()` — nb04               |
+| Geographic Hotspot Concentration           | Top states and cities by accident count and high-severity rate                          | `df.groupby('state')['is_high_severity'].agg(['count','mean'])` — nb03 |
+| Rush-Hour Accident Share (%)               | % of all accidents occurring during peak commute windows                                | `df['is_rush_hour'].mean() * 100` — nb03                               |
+| YoY Accident Volume Growth Rate (%)        | Year-over-year change in total accident count — tracks whether risk is increasing       | `df.groupby('year').size().pct_change() * 100` — nb04                  |
+| Adverse-Weather High-Severity Rate         | % of high-severity accidents under adverse weather — quantifies weather exposure risk   | Chi-square test + conditional rate — nb04                              |
 
 Document KPI logic clearly in `notebooks/04_statistical_analysis.ipynb` and `notebooks/05_final_load_prep.ipynb`.
 
@@ -90,12 +90,12 @@ Document KPI logic clearly in `notebooks/04_statistical_analysis.ipynb` and `not
 
 ## Tableau Dashboard
 
-| Item | Details |
-|---|---|
-| **Dashboard URL** | https://public.tableau.com/app/profile/somraj.nandi/viz/USARoadAccidentsIntelligence/Dashboard1 |
-| **Executive View** | National KPI summary — total accidents, high-severity rate, top-5 states by volume |
-| **Operational View** | Regional drill-down — city-level hotspots, severity heatmap, temporal breakdown |
-| **Main Filters** | State, Severity Level, Weather Condition, Year |
+| Item                 | Details                                                                                         |
+| -------------------- | ----------------------------------------------------------------------------------------------- |
+| **Dashboard URL**    | https://public.tableau.com/app/profile/somraj.nandi/viz/USARoadAccidentsIntelligence/Dashboard1 |
+| **Executive View**   | National KPI summary — total accidents, high-severity rate, top-5 states by volume              |
+| **Operational View** | Regional drill-down — city-level hotspots, severity heatmap, temporal breakdown                 |
+| **Main Filters**     | State, Severity Level, Weather Condition, Year                                                  |
 
 Store dashboard screenshots in [`tableau/screenshots/`](tableau/screenshots/) and document the public links in [`tableau/dashboard_links.md`](tableau/dashboard_links.md).
 
@@ -116,13 +116,13 @@ Store dashboard screenshots in [`tableau/screenshots/`](tableau/screenshots/) an
 
 ## Recommendations
 
-| # | Insight | Recommendation | Expected Impact |
-|---|---|---|---|
-| 1 | Junctions = OR 1.35 for high-severity | Prioritise junction redesign (roundabouts, raised crosswalks) at top-50 high-frequency, high-severity intersections | Estimated 10–15% reduction in severe junction accidents |
-| 2 | Traffic signals OR = 0.47 (protective) | Expand signal deployment at uncontrolled high-volume intersections in top-10 hotspot cities | 7–8% severity reduction per intersection; scalable across thousands of sites |
-| 3 | Railway OR = 1.44, highest POI risk | Upgrade all unsignalised railway crossings in high-accident corridors with active warning systems and lighting | Targets the highest-severity-per-event POI class |
-| 4 | Weather × severity: p ≈ 0 | Deploy weather-responsive variable speed limits and real-time advisory signs on high-volume corridors with frequent adverse conditions | Reduces weather-amplified severity; aligns with existing MUTCD guidance |
-| 5 | Severity-4 clearance = 130 min | Implement severity-tiered emergency response staging — pre-position heavy-response units in Sev 3/4-dominant corridors during peak risk windows (rush hour, winter weekends) | Potential to cut Sev-4 clearance time by 20–30 min per event |
+| #   | Insight                                | Recommendation                                                                                                                                                               | Expected Impact                                                              |
+| --- | -------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| 1   | Junctions = OR 1.35 for high-severity  | Prioritise junction redesign (roundabouts, raised crosswalks) at top-50 high-frequency, high-severity intersections                                                          | Estimated 10–15% reduction in severe junction accidents                      |
+| 2   | Traffic signals OR = 0.47 (protective) | Expand signal deployment at uncontrolled high-volume intersections in top-10 hotspot cities                                                                                  | 7–8% severity reduction per intersection; scalable across thousands of sites |
+| 3   | Railway OR = 1.44, highest POI risk    | Upgrade all unsignalised railway crossings in high-accident corridors with active warning systems and lighting                                                               | Targets the highest-severity-per-event POI class                             |
+| 4   | Weather × severity: p ≈ 0              | Deploy weather-responsive variable speed limits and real-time advisory signs on high-volume corridors with frequent adverse conditions                                       | Reduces weather-amplified severity; aligns with existing MUTCD guidance      |
+| 5   | Severity-4 clearance = 130 min         | Implement severity-tiered emergency response staging — pre-position heavy-response units in Sev 3/4-dominant corridors during peak risk windows (rush hour, winter weekends) | Potential to cut Sev-4 clearance time by 20–30 min per event                 |
 
 ---
 
@@ -181,13 +181,13 @@ The project follows a structured 7-step workflow:
 
 ## Tech Stack
 
-| Tool | Status | Purpose |
-|---|---|---|
-| Python + Jupyter Notebooks | Mandatory | ETL, cleaning, analysis, and KPI computation |
-| Google Colab | Supported | Cloud notebook execution environment |
-| Tableau Public | Mandatory | Dashboard design, publishing, and sharing |
-| GitHub | Mandatory | Version control, collaboration, contribution audit |
-| SQL | Optional | Initial data extraction only, if documented |
+| Tool                       | Status    | Purpose                                            |
+| -------------------------- | --------- | -------------------------------------------------- |
+| Python + Jupyter Notebooks | Mandatory | ETL, cleaning, analysis, and KPI computation       |
+| Google Colab               | Supported | Cloud notebook execution environment               |
+| Tableau Public             | Mandatory | Dashboard design, publishing, and sharing          |
+| GitHub                     | Mandatory | Version control, collaboration, contribution audit |
+| SQL                        | Optional  | Initial data extraction only, if documented        |
 
 **Recommended Python libraries:** `pandas`, `numpy`, `matplotlib`, `seaborn`, `scipy`, `statsmodels`
 
@@ -195,15 +195,15 @@ The project follows a structured 7-step workflow:
 
 ## Evaluation Rubric
 
-| Area | Marks | Focus |
-|---|---|---|
-| Problem Framing | 10 | Is the business question clear and well-scoped? |
-| Data Quality and ETL | 15 | Is the cleaning pipeline thorough and documented? |
-| Analysis Depth | 25 | Are statistical methods applied correctly with insight? |
-| Dashboard and Visualization | 20 | Is the Tableau dashboard interactive and decision-relevant? |
-| Business Recommendations | 20 | Are insights actionable and well-reasoned? |
-| Storytelling and Clarity | 10 | Is the presentation professional and coherent? |
-| **Total** | **100** | |
+| Area                        | Marks   | Focus                                                       |
+| --------------------------- | ------- | ----------------------------------------------------------- |
+| Problem Framing             | 10      | Is the business question clear and well-scoped?             |
+| Data Quality and ETL        | 15      | Is the cleaning pipeline thorough and documented?           |
+| Analysis Depth              | 25      | Are statistical methods applied correctly with insight?     |
+| Dashboard and Visualization | 20      | Is the Tableau dashboard interactive and decision-relevant? |
+| Business Recommendations    | 20      | Are insights actionable and well-reasoned?                  |
+| Storytelling and Clarity    | 10      | Is the presentation professional and coherent?              |
+| **Total**                   | **100** |                                                             |
 
 > Marks are awarded for analytical thinking and decision relevance, not chart quantity, visual decoration, or code length.
 
@@ -217,8 +217,8 @@ The project follows a structured 7-step workflow:
 - [x] All notebooks committed in `.ipynb` format
 - [x] `data/raw/` contains the original, unedited dataset (`US_Accidents_March23.csv`)
 - [x] `data/processed/` contains the cleaned pipeline output (`cleaned_dataset.csv`)
-- [ ] `tableau/screenshots/` contains dashboard screenshots
-- [ ] `tableau/dashboard_links.md` contains the Tableau Public URL
+- [x] `tableau/screenshots/` contains dashboard screenshots
+- [x] `tableau/dashboard_links.md` contains the Tableau Public URL
 - [x] `docs/data_dictionary.md` is complete
 - [x] `README.md` explains the project, dataset, and team
 - [x] All members have visible commits and pull requests
@@ -226,8 +226,8 @@ The project follows a structured 7-step workflow:
 **Tableau Dashboard**
 
 - [x] Published on Tableau Public and accessible via public URL
-- [ ] At least one interactive filter included
-- [ ] Dashboard directly addresses the business problem
+- [x] At least one interactive filter included
+- [x] Dashboard directly addresses the business problem
 
 **Project Report**
 
@@ -256,13 +256,13 @@ The project follows a structured 7-step workflow:
 
 This table must match evidence in GitHub Insights, PR history, and committed files.
 
-| Team Member | Dataset and Sourcing | ETL and Cleaning | EDA and Analysis | Statistical Analysis | Tableau Dashboard | Report Writing | PPT and Viva |
-|---|---|---|---|---|---|---|---|
-| AalokeCode | _Owner / support_ | _Owner / support_ | _Owner / support_ | _Owner / support_ | _Owner / support_ | _Owner / support_ | _Owner / support_ |
-| aryankinha | _Owner / support_ | _Owner / support_ | _Owner / support_ | _Owner / support_ | _Owner / support_ | _Owner / support_ | _Owner / support_ |
-| punityadavrao | _Owner / support_ | _Owner / support_ | _Owner / support_ | _Owner / support_ | _Owner / support_ | _Owner / support_ | _Owner / support_ |
-| somraj112 | _Owner / support_ | _Owner / support_ | _Owner / support_ | _Owner / support_ | _Owner / support_ | _Owner / support_ | _Owner / support_ |
-| bigXalok | _Owner / support_ | _Owner / support_ | _Owner / support_ | _Owner / support_ | _Owner / support_ | _Owner / support_ | _Owner / support_ |
+| Team Member   | Dataset and Sourcing | ETL and Cleaning  | EDA and Analysis  | Statistical Analysis | Tableau Dashboard | Report Writing    | PPT and Viva      |
+| ------------- | -------------------- | ----------------- | ----------------- | -------------------- | ----------------- | ----------------- | ----------------- |
+| AalokeCode    | _Owner / support_    | _Owner / support_ | _Owner / support_ | _Owner / support_    | _Owner / support_ | _Owner / support_ | _Owner / support_ |
+| aryankinha    | _Owner / support_    | _Owner / support_ | _Owner / support_ | _Owner / support_    | _Owner / support_ | _Owner / support_ | _Owner / support_ |
+| punityadavrao | _Owner / support_    | _Owner / support_ | _Owner / support_ | _Owner / support_    | _Owner / support_ | _Owner / support_ | _Owner / support_ |
+| somraj112     | _Owner / support_    | _Owner / support_ | _Owner / support_ | _Owner / support_    | _Owner / support_ | _Owner / support_ | _Owner / support_ |
+| bigXalok      | _Owner / support_    | _Owner / support_ | _Owner / support_ | _Owner / support_    | _Owner / support_ | _Owner / support_ | _Owner / support_ |
 
 _Declaration: We confirm that the above contribution details are accurate and verifiable through GitHub Insights, PR history, and submitted artifacts._
 
@@ -278,4 +278,4 @@ All analysis, code, and recommendations in this repository must be the original 
 
 ---
 
-*Newton School of Technology - Data Visualization & Analytics | Capstone 2*
+_Newton School of Technology - Data Visualization & Analytics | Capstone 2_
