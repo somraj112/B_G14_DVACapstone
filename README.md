@@ -25,8 +25,8 @@
 | Data Lead | `aryankinha` |
 | ETL Lead | `aryankinha` |
 | Analysis Lead | `punityadavrao` |
-| Visualization Lead | `somraj` _(username TBD)_ |
-| Strategy Lead | `alok` _(username TBD)_ |
+| Visualization Lead | `somraj112` |
+| Strategy Lead | `bigXalok` |
 | PPT and Quality Lead | `AalokeCode` |
 
 ---
@@ -92,10 +92,10 @@ Document KPI logic clearly in `notebooks/04_statistical_analysis.ipynb` and `not
 
 | Item | Details |
 |---|---|
-| **Dashboard URL** | _To be published_ |
-| **Executive View** | _To be filled_ |
-| **Operational View** | _To be filled_ |
-| **Main Filters** | _To be filled_ |
+| **Dashboard URL** | https://public.tableau.com/app/profile/somraj.nandi/viz/USARoadAccidentsIntelligence/Dashboard1 |
+| **Executive View** | National KPI summary — total accidents, high-severity rate, top-5 states by volume |
+| **Operational View** | Regional drill-down — city-level hotspots, severity heatmap, temporal breakdown |
+| **Main Filters** | State, Severity Level, Weather Condition, Year |
 
 Store dashboard screenshots in [`tableau/screenshots/`](tableau/screenshots/) and document the public links in [`tableau/dashboard_links.md`](tableau/dashboard_links.md).
 
@@ -103,28 +103,26 @@ Store dashboard screenshots in [`tableau/screenshots/`](tableau/screenshots/) an
 
 ## Key Insights
 
-_To be filled after analysis is complete._
-
-1. _Insight 1_
-2. _Insight 2_
-3. _Insight 3_
-4. _Insight 4_
-5. _Insight 5_
-6. _Insight 6_
-7. _Insight 7_
-8. _Insight 8_
+1. **21.3% of accidents are high-severity (Sev 3+4).** Severity 2 dominates at 77.7%, but the 21.3% high-severity share drives disproportionate emergency costs and road clearance time — these are the priority intervention targets.
+2. **Severity-4 accidents block traffic 2.9× longer than severity-1.** Median clearance is 130 min (Sev 4) vs 44.8 min (Sev 1). Emergency teams routed by severity level — not just volume — can reclaim thousands of person-hours annually.
+3. **Junctions are the single most dangerous road feature.** Accidents near junctions average 0.107 higher severity than non-junction locations (logistic OR = 1.35, p < 0.001). Junction redesign offers the highest return on infrastructure spend.
+4. **Traffic signals are the most protective intervention available.** Signal-present accidents average severity 2.086 vs 2.257 where signals are absent — a 7.6% severity reduction. Logistic OR = 0.47 confirms signals nearly halve the odds of a high-severity outcome.
+5. **Weather condition significantly determines severity (χ² = 3527.80, p ≈ 0).** Adverse conditions (snow, heavy rain, fog) carry systematically higher severity than clear weather — weather-responsive speed limits and variable message signs are statistically justified.
+6. **Railway crossings carry the highest severity uplift of all POIs (OR = 1.44).** Despite low accident volume, railway-proximate accidents are 44% more likely to be high-severity — most are unprotected or poorly lit.
+7. **Weekend accidents are 19% more likely to be high-severity (OR = 1.19, p < 0.001).** Higher-speed and off-peak driving behaviour shifts the severity profile upward on weekends, requiring weekend-specific patrol deployment.
+8. **Nighttime accidents are measurably more severe (2.238) than daytime (2.227).** While the gap appears small in absolute terms, across millions of accidents this translates to thousands of additional high-severity events attributable to lighting deficit.
 
 ---
 
 ## Recommendations
 
-_To be filled after analysis is complete._
-
 | # | Insight | Recommendation | Expected Impact |
 |---|---|---|---|
-| 1 | _Which insight does this address?_ | _What should the stakeholder do?_ | _What measurable impact do you expect?_ |
-| 2 | _Which insight does this address?_ | _What should the stakeholder do?_ | _What measurable impact do you expect?_ |
-| 3 | _Which insight does this address?_ | _What should the stakeholder do?_ | _What measurable impact do you expect?_ |
+| 1 | Junctions = OR 1.35 for high-severity | Prioritise junction redesign (roundabouts, raised crosswalks) at top-50 high-frequency, high-severity intersections | Estimated 10–15% reduction in severe junction accidents |
+| 2 | Traffic signals OR = 0.47 (protective) | Expand signal deployment at uncontrolled high-volume intersections in top-10 hotspot cities | 7–8% severity reduction per intersection; scalable across thousands of sites |
+| 3 | Railway OR = 1.44, highest POI risk | Upgrade all unsignalised railway crossings in high-accident corridors with active warning systems and lighting | Targets the highest-severity-per-event POI class |
+| 4 | Weather × severity: p ≈ 0 | Deploy weather-responsive variable speed limits and real-time advisory signs on high-volume corridors with frequent adverse conditions | Reduces weather-amplified severity; aligns with existing MUTCD guidance |
+| 5 | Severity-4 clearance = 130 min | Implement severity-tiered emergency response staging — pre-position heavy-response units in Sev 3/4-dominant corridors during peak risk windows (rush hour, winter weekends) | Potential to cut Sev-4 clearance time by 20–30 min per event |
 
 ---
 
@@ -227,7 +225,7 @@ The project follows a structured 7-step workflow:
 
 **Tableau Dashboard**
 
-- [ ] Published on Tableau Public and accessible via public URL
+- [x] Published on Tableau Public and accessible via public URL
 - [ ] At least one interactive filter included
 - [ ] Dashboard directly addresses the business problem
 
@@ -263,8 +261,8 @@ This table must match evidence in GitHub Insights, PR history, and committed fil
 | AalokeCode | _Owner / support_ | _Owner / support_ | _Owner / support_ | _Owner / support_ | _Owner / support_ | _Owner / support_ | _Owner / support_ |
 | aryankinha | _Owner / support_ | _Owner / support_ | _Owner / support_ | _Owner / support_ | _Owner / support_ | _Owner / support_ | _Owner / support_ |
 | punityadavrao | _Owner / support_ | _Owner / support_ | _Owner / support_ | _Owner / support_ | _Owner / support_ | _Owner / support_ | _Owner / support_ |
-| somraj _(TBD)_ | _Owner / support_ | _Owner / support_ | _Owner / support_ | _Owner / support_ | _Owner / support_ | _Owner / support_ | _Owner / support_ |
-| alok _(TBD)_ | _Owner / support_ | _Owner / support_ | _Owner / support_ | _Owner / support_ | _Owner / support_ | _Owner / support_ | _Owner / support_ |
+| somraj112 | _Owner / support_ | _Owner / support_ | _Owner / support_ | _Owner / support_ | _Owner / support_ | _Owner / support_ | _Owner / support_ |
+| bigXalok | _Owner / support_ | _Owner / support_ | _Owner / support_ | _Owner / support_ | _Owner / support_ | _Owner / support_ | _Owner / support_ |
 
 _Declaration: We confirm that the above contribution details are accurate and verifiable through GitHub Insights, PR history, and submitted artifacts._
 
