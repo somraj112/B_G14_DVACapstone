@@ -278,6 +278,7 @@ _Declaration: We confirm that the above contribution details are accurate and ve
 
 | Member           | Portfolio Link                                   |
 | ---------------- | ------------------------------------------------ |
+| Aaloke Eppalapalli | https://aalokecode.github.io/DVA_Portfolio/      |
 | Aryan Kinha      | https://aryankinha.github.io/data_analytics_profile/ |
 | Punit Yadav Rao  | https://dva-portfolio-lime.vercel.app/           |
 | Somraj Nandi     | https://somraj112.github.io/DVAPortfolio/        |
