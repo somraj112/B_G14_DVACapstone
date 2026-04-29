@@ -22,11 +22,11 @@
 | Name                        | GitHub            | Role                     |
 | --------------------------- | ----------------- | ------------------------ |
 | Aaloke Eppalapalli          | `AalokeCode`      | Project Lead · PPT/Viva  |
-| Aryan Kinha                 | `aryankinha`      | ETL Lead · EDA Lead      |
-| Punit Yadav Rao             | `punityadavrao`   | Support                  |
+| Aryan Kinha                 | `aryankinha`      | ETL Lead                 |
+| Punit Yadav Rao             | `punityadavrao`   | EDA Lead                 |
 | Somraj Nandi                | `somraj112`       | Tableau Lead             |
 | Alok Kumar                  | `bigXalok`        | Report Lead              |
-| Balajee                     | `balajeein`       | Support                  |
+| Balajee                     | `balajeein`       | Stats Lead               |
 
 ---
 
@@ -260,11 +260,11 @@ This table must match evidence in GitHub Insights, PR history, and committed fil
 | Team Member              | Dataset  | ETL      | EDA      | Stats    | Tableau  | Report   | PPT/Viva |
 | ------------------------ | -------- | -------- | -------- | -------- | -------- | -------- | -------- |
 | Aaloke (AalokeCode)      | **Lead** | Sup.     | Sup.     | Sup.     | Sup.     | Sup.     | **Lead** |
-| Aryan (aryankinha)       | Sup.     | **Lead** | **Lead** | **Lead** | Sup.     | Sup.     | Sup.     |
-| Punit (punityadavrao)    | Sup.     | Sup.     | Sup.     | Sup.     | Sup.     | Sup.     | Sup.     |
+| Aryan (aryankinha)       | Sup.     | **Lead** | Sup.     | Sup.     | Sup.     | Sup.     | Sup.     |
+| Punit (punityadavrao)    | Sup.     | Sup.     | **Lead** | Sup.     | Sup.     | Sup.     | Sup.     |
 | Somraj (somraj112)       | Sup.     | Sup.     | Sup.     | Sup.     | **Lead** | Sup.     | Sup.     |
 | Alok (bigXalok)          | Sup.     | Sup.     | Sup.     | Sup.     | Sup.     | **Lead** | Sup.     |
-| Balajee (balajeein)      | Sup.     | Sup.     | Sup.     | Sup.     | Sup.     | Sup.     | Sup.     |
+| Balajee (balajeein)      | Sup.     | Sup.     | Sup.     | **Lead** | Sup.     | Sup.     | Sup.     |
 
 _Declaration: We confirm that the above contribution details are accurate and verifiable through GitHub Insights, PR history, and submitted artifacts._
 
